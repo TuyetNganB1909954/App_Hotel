@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../hotel_card.dart';
+import 'hotel_card.dart';
 
 class HotelOverviewScreen extends StatefulWidget {
   const HotelOverviewScreen({super.key});
@@ -85,19 +85,19 @@ class _HotelOverviewScreen extends State<HotelOverviewScreen> {
                       )
                     ],
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: 45.0),
                   Container(
-                    height: 300.0,
+                    height: 350.0,
                     child: TabBarView(children: [
                       Container(
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
-                            HotelCard(urls[0], "Luxury HOtel", "Cần Thơ", 3),
-                            HotelCard(urls[1], "Luxury HOtel", "Cần Thơ", 3),
-                            HotelCard(urls[2], "Luxury HOtel", "Cần Thơ", 3),
-                            HotelCard(urls[4], "Luxury HOtel", "Cần Thơ", 3),
-                            HotelCard(urls[5], "Luxury HOtel", "Cần Thơ", 3)
+                            HotelCard(urls[0], "Luxury Hotel", "Cần Thơ", 3),
+                            HotelCard(urls[1], "Luxury Hotel", "Cần Thơ", 5),
+                            HotelCard(urls[2], "Luxury Hotel", "Cần Thơ", 2),
+                            HotelCard(urls[4], "Luxury Hotel", "Cần Thơ", 4),
+                            HotelCard(urls[5], "Luxury Hotel", "Cần Thơ", 1)
                           ],
                         ),
                       ),
