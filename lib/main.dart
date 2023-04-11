@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myshop/models/hotel.dart';
+import 'package:myshop/ui/hotel/edit_hote_screen.dart';
 import 'package:myshop/ui/hotel/hotel_card.dart';
 import 'package:myshop/ui/hotel/hotel_detail.dart';
 import 'package:myshop/ui/hotel/hotel_manager.dart';
@@ -52,6 +53,18 @@ class MyApp extends StatelessWidget {
                 ctx.read<HotelsManager>().findById(hotelID)!,
               );
             });
+          }
+          if (settings.name == EditHotelScreen.routeName) {
+            final productId = settings.arguments as String?;
+            return MaterialPageRoute(
+              builder: (ctx) {
+                return EditHotelScreen(
+                  productId != null
+                      ? ctx.read<HotelsManager>().findById(productId)
+                      : null,
+                );
+              },
+            );
           }
           return null;
         },

@@ -41,4 +41,23 @@ class HotelsManager with ChangeNotifier {
       return null;
     }
   }
+
+  void addProduct(Hotel hotel) {
+    _items.add(hotel.copyWith(id: 'p${DateTime.now().toIso8601String()}'));
+    notifyListeners();
+  }
+
+  void deleteProduct(String id) {
+    final index = _items.indexWhere((item) => item.id == id);
+    _items.removeAt(index);
+    notifyListeners();
+  }
+
+  void updateProduct(Hotel hotel) {
+    final index = _items.indexWhere((item) => item.id == hotel.id);
+    if (index >= 0) {
+      _items[index] = hotel;
+      notifyListeners();
+    }
+  }
 }

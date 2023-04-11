@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myshop/ui/hotel/edit_hote_screen.dart';
 import 'package:myshop/ui/hotel/user_hotel_tile.dart';
 import 'package:myshop/ui/screens.dart';
 import 'package:provider/provider.dart';
@@ -73,10 +74,10 @@ class UserHotelScreen extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.add),
       onPressed: () {
-        print('Go to edit product screen');
-        // Navigator.of(context).pushNamed(
-        //   EditProductScreen.routeName,
-        // );
+        // print('Go to edit product screen');
+        Navigator.of(context).pushNamed(
+          EditHotelScreen.routeName,
+        );
       },
     );
   }

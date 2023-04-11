@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/hotel.dart';
+import '../shared/app_drawer.dart';
 
 class HotelDetaiScreen extends StatelessWidget {
   const HotelDetaiScreen(this.hotel, {super.key});
@@ -8,20 +9,34 @@ class HotelDetaiScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF6F7FF),
+      drawer: const AppDrawer(),
+      appBar: AppBar(
+        backgroundColor: Color(0xFFF6F7FF),
+        elevation: 0.0,
+        leading: Builder(builder: (context) {
+          return IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+          );
+        }),
+      ),
+      // backgroundColor: Color(0xFFF6F7FF),
       body: Padding(
         padding: const EdgeInsets.all(00.0),
         child: Column(children: [
           DefaultTabController(
-              length: 2,
+              length: 3,
               child: Expanded(
                 child: Column(children: [
                   Container(
-                    height: 330.0,
+                    height: 300.0,
                     child: TabBarView(children: [
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0),
+                            // borderRadius: BorderRadius.circular(25.0),
                             image: DecorationImage(
                                 image: NetworkImage(hotel.imgUrl),
                                 fit: BoxFit.cover)),
@@ -60,6 +75,7 @@ class HotelDetaiScreen extends StatelessWidget {
               children: [
                 Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                    margin: EdgeInsets.only(top: 20),
                     width: double.infinity,
                     child: Column(
                       children: [
