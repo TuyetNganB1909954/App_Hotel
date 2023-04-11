@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myshop/ui/screens.dart';
 
+import '../shared/app_drawer.dart';
 import 'hotel_card.dart';
 
 class HotelOverviewScreen extends StatefulWidget {
@@ -10,32 +12,65 @@ class HotelOverviewScreen extends StatefulWidget {
 }
 
 class _HotelOverviewScreen extends State<HotelOverviewScreen> {
-  List<String> urls = [
-    "https://resofrance.eu/wp-content/uploads/2018/09/hotel-luxe-mandarin-oriental-paris.jpg",
-    // "https://lh3.googleusercontent.com/proxy/ovCSxeucYYoir_rZdSYq8FfCHPeot49lbYqlk7nXs7sXjqAfbZ2uw_1E9iivLT85LwIZiGSnXuqkdbQ_xKFhd91M7Y05G94d",
-    "https://q-xx.bstatic.com/xdata/images/hotel/max500/216968639.jpg?k=a65c7ca7141416ffec244cbc1175bf3bae188d1b4919d5fb294fab5ec8ee2fd2&o=",
-    "https://hubinstitute.com/sites/default/files/styles/1200x500_crop/public/2018-06/photo-1439130490301-25e322d88054.jpeg?h=f720410d&itok=HI5-oD_g",
-    "https://cdn.contexttravel.com/image/upload/c_fill,q_60,w_2600/v1549318570/production/city/hero_image_2_1549318566.jpg",
-    "https://www.shieldsgazette.com/images-i.jpimedia.uk/imagefetch/https://jpgreatcontent.co.uk/wp-content/uploads/2020/04/spain.jpg",
-    "https://www.telegraph.co.uk/content/dam/Travel/2017/November/tunisia-sidi-bou-GettyImages-575664325.jpg",
-    "https://lp-cms-production.imgix.net/features/2018/06/byrsa-hill-carthage-tunis-tunisia-2d96efe7b9bf.jpg"
-  ];
-
+  // List<String> urls = [
+  //   "https://resofrance.eu/wp-content/uploads/2018/09/hotel-luxe-mandarin-oriental-paris.jpg",
+  //   // "https://lh3.googleusercontent.com/proxy/ovCSxeucYYoir_rZdSYq8FfCHPeot49lbYqlk7nXs7sXjqAfbZ2uw_1E9iivLT85LwIZiGSnXuqkdbQ_xKFhd91M7Y05G94d",
+  //   "https://q-xx.bstatic.com/xdata/images/hotel/max500/216968639.jpg?k=a65c7ca7141416ffec244cbc1175bf3bae188d1b4919d5fb294fab5ec8ee2fd2&o=",
+  //   "https://hubinstitute.com/sites/default/files/styles/1200x500_crop/public/2018-06/photo-1439130490301-25e322d88054.jpeg?h=f720410d&itok=HI5-oD_g",
+  //   "https://cdn.contexttravel.com/image/upload/c_fill,q_60,w_2600/v1549318570/production/city/hero_image_2_1549318566.jpg",
+  //   "https://www.shieldsgazette.com/images-i.jpimedia.uk/imagefetch/https://jpgreatcontent.co.uk/wp-content/uploads/2020/04/spain.jpg",
+  //   "https://www.telegraph.co.uk/content/dam/Travel/2017/November/tunisia-sidi-bou-GettyImages-575664325.jpg",
+  //   "https://lp-cms-production.imgix.net/features/2018/06/byrsa-hill-carthage-tunis-tunisia-2d96efe7b9bf.jpg"
+  // ];
+  static const routeName = '/hotel';
   @override
   Widget build(BuildContext context) {
+    final hotels = HotelsManager().items;
     return Scaffold(
       backgroundColor: Color(0xFFF6F7FF),
+      // appBar: AppBar(
+      //   elevation: 0.0,
+      //   backgroundColor: Color(0xFFF6F7FF),
+      //   leading: Builder(builder: (context) {
+      //       return IconButton(
+      //         onPressed: () { Scaffold.of(context).openDrawer();}
+      //         icon: Icon(
+      //           Icons.image_search_outlined,
+      //         ),
+      //       );
+      //     }
+      //   // leading: Icon(
+      //   //   Icons.menu,
+      //   //   color: Colors.black,
+      //   // ),
+      //   // title: Row(children: [
+      //   //   IconButton(
+      //   //       onPressed: () {},
+      //   //       icon: Icon(
+      //   //         Icons.menu,
+      //   //         color: Colors.black,
+      //   //       ))
+      //   // ]),
+      //   // actions: <Widget>[
+      //   //   return PopupMenuButton(
+      //   //     on
+      //   //   )
+      //   // ],
+      // ),
+      drawer: const AppDrawer(),
+
       appBar: AppBar(
-        elevation: 0.0,
         backgroundColor: Color(0xFFF6F7FF),
-        title: Row(children: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black,
-              ))
-        ]),
+        elevation: 0.0,
+        leading: Builder(builder: (context) {
+          return IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+          );
+        }),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
@@ -90,15 +125,10 @@ class _HotelOverviewScreen extends State<HotelOverviewScreen> {
                     height: 350.0,
                     child: TabBarView(children: [
                       Container(
-                        child: ListView(
+                        child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          children: [
-                            HotelCard(urls[0], "Luxury Hotel", "Cần Thơ", 3),
-                            HotelCard(urls[1], "Luxury Hotel", "Cần Thơ", 5),
-                            HotelCard(urls[2], "Luxury Hotel", "Cần Thơ", 2),
-                            HotelCard(urls[4], "Luxury Hotel", "Cần Thơ", 4),
-                            HotelCard(urls[5], "Luxury Hotel", "Cần Thơ", 1)
-                          ],
+                          itemCount: hotels.length,
+                          itemBuilder: (ctx, i) => HotelCard(hotels[i]),
                         ),
                       ),
                       Container(

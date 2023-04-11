@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../models/hotel.dart';
-import 'hotel_card.dart';
 
 class HotelDetaiScreen extends StatelessWidget {
   const HotelDetaiScreen(this.hotel, {super.key});
   final Hotel hotel;
-
+  static const routeName = '/hotel-detail';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
