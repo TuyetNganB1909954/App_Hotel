@@ -5,6 +5,7 @@ import 'package:myshop/ui/hotel/hotel_card.dart';
 import 'package:myshop/ui/hotel/hotel_detail.dart';
 import 'package:myshop/ui/hotel/hotel_manager.dart';
 import 'package:myshop/ui/hotel/hotel_overview_screen.dart';
+import 'package:myshop/ui/hotel/order_hotel_screen.dart';
 import 'package:myshop/ui/hotel/user_hotel_screen.dart';
 import 'package:myshop/ui/hotel/user_hotel_tile.dart';
 import 'package:provider/provider.dart';
@@ -59,6 +60,18 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (ctx) {
                 return EditHotelScreen(
+                  productId != null
+                      ? ctx.read<HotelsManager>().findById(productId)
+                      : null,
+                );
+              },
+            );
+          }
+          if (settings.name == OrderHotelScreen.routeName) {
+            final productId = settings.arguments as String?;
+            return MaterialPageRoute(
+              builder: (ctx) {
+                return OrderHotelScreen(
                   productId != null
                       ? ctx.read<HotelsManager>().findById(productId)
                       : null,

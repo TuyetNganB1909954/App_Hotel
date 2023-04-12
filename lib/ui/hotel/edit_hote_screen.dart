@@ -282,10 +282,10 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
       onFieldSubmitted: (value) => _saveForm(),
       validator: (value) {
         if (value!.isEmpty) {
-          return 'Please enter an image URL';
+          return 'Vui lòng nhập hình ảnh URL';
         }
         if (!_isValidImageUrl(value)) {
-          return 'Please enter a valid image URL.';
+          return 'Vui lòng nhập hình ảnh URL hợp lệ';
         }
         return null;
       },

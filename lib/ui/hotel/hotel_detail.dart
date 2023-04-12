@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myshop/ui/hotel/edit_hote_screen.dart';
+import 'package:myshop/ui/hotel/order_hotel_screen.dart';
 import '../../models/hotel.dart';
 import '../shared/app_drawer.dart';
 
@@ -128,7 +130,12 @@ class HotelDetaiScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print('aaaaaaaaaaaa');
+                      Navigator.of(context).pushNamed(
+                        OrderHotelScreen.routeName,
+                      );
+                    },
                     child: Text(
                       'Đặt ngay',
                       style: TextStyle(
