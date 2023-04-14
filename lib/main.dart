@@ -15,17 +15,6 @@ import 'package:provider/provider.dart';
 
 import 'ui/auth/auth_screen.dart';
 
-// void main() {
-//   runApp(MaterialApp(
-//     debugShowCheckedModeBanner: false,
-//     home: MyApp(),
-//   ));
-// }
-
-// class MyApp extends StatefulWidget {
-//   @override
-//   _HotelAppState createState() => _HotelAppState();
-// }
 Future<void> main() async {
   await dotenv.load();
   runApp(const MyApp());
@@ -36,8 +25,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (ctx) => HotelsManager()),
+          // ChangeNotifierProvider(create: (ctx) => HotelsManager()),
           ChangeNotifierProvider(create: (ctx) => AuthManager()),
+          ChangeNotifierProxyProvider<AuthManager, HotelsManager>(
+              create: (ctx) => HotelsManager(),
+              update: ((ctx, authManager, hotelsManager) {
+                hotelsManager!.authToken = authManager.authToken;
+                return hotelsManager;
+              })),
         ],
         child: Consumer<AuthManager>(builder: (context, authManager, child) {
           return MaterialApp(

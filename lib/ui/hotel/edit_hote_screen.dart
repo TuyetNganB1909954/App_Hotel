@@ -33,7 +33,7 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
   final _editForm = GlobalKey<FormState>();
-  late Hotel _editedProduct;
+  late Hotel _editedHotel;
   var _isLoading = false;
   bool _isValidImageUrl(String value) {
     return (value.startsWith('http') || value.startsWith('https')) &&
@@ -52,8 +52,8 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
         setState(() {});
       }
     });
-    _editedProduct = widget.hotel;
-    _imageUrlController.text = _editedProduct.imgUrl;
+    _editedHotel = widget.hotel;
+    _imageUrlController.text = _editedHotel.imgUrl;
     super.initState();
   }
 
@@ -74,22 +74,13 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
     setState(() {
       _isLoading = true;
     });
-    // try {
-    //   final productsManager = context.read<ProductsManager>();
-    //   if (_editedProduct.id != null) {
-    //     productsManager.updateProduct(_editedProduct);
-    //   } else {
-    //     productsManager.addProduct(_editedProduct);
-    //   }
-    // } catch (error) {
-    //   await showErrorDialog(context, 'Something went wrong');
-    // }
+
     try {
-      final productsManager = context.read<HotelsManager>();
-      if (_editedProduct.id != null) {
-        productsManager.updateProduct(_editedProduct);
+      final hotelManager = context.read<HotelsManager>();
+      if (_editedHotel.id != null) {
+        hotelManager.updateHotel(_editedHotel);
       } else {
-        productsManager.addProduct(_editedProduct);
+        hotelManager.addHotel(_editedHotel);
       }
     } catch (error) {
       await showErrorDialog(context, 'Something went wrong');
@@ -107,7 +98,7 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cập nhật khách sạn '),
+        title: const Text('Thêm khách sạn '),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.save),
@@ -140,7 +131,7 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
 
   TextFormField buildTitleField() {
     return TextFormField(
-      initialValue: _editedProduct.hotelName,
+      initialValue: _editedHotel.hotelName,
       decoration: const InputDecoration(labelText: 'Tên khách sạn'),
       textInputAction: TextInputAction.next,
       autofocus: true,
@@ -151,14 +142,14 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(hotelName: value);
+        _editedHotel = _editedHotel.copyWith(hotelName: value);
       },
     );
   }
 
   TextFormField buildPriceField() {
     return TextFormField(
-      initialValue: _editedProduct.price.toString(),
+      initialValue: _editedHotel.price.toString(),
       decoration: const InputDecoration(
           labelText: 'Giá', labelStyle: TextStyle(fontSize: 22)),
       textInputAction: TextInputAction.next,
@@ -173,14 +164,14 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(price: double.parse(value!));
+        _editedHotel = _editedHotel.copyWith(price: double.parse(value!));
       },
     );
   }
 
   TextFormField buildDescriptionField() {
     return TextFormField(
-      initialValue: _editedProduct.description,
+      initialValue: _editedHotel.description,
       decoration: const InputDecoration(labelText: 'Mô tả'),
       // maxLines: 2,
       keyboardType: TextInputType.multiline,
@@ -194,14 +185,14 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(description: value);
+        _editedHotel = _editedHotel.copyWith(description: value);
       },
     );
   }
 
   TextFormField buildLocationField() {
     return TextFormField(
-      initialValue: _editedProduct.location,
+      initialValue: _editedHotel.location,
       decoration: const InputDecoration(labelText: 'Địa chỉ'),
       // maxLines: 3,
       keyboardType: TextInputType.multiline,
@@ -215,14 +206,14 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(description: value);
+        _editedHotel = _editedHotel.copyWith(location: value);
       },
     );
   }
 
   TextFormField buildRatingField() {
     return TextFormField(
-      initialValue: _editedProduct.rating.toString(),
+      initialValue: _editedHotel.rating.toString(),
       decoration: const InputDecoration(
           labelText: 'Đánh giá', labelStyle: TextStyle(fontSize: 22)),
       textInputAction: TextInputAction.next,
@@ -237,7 +228,7 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(price: double.parse(value!));
+        _editedHotel = _editedHotel.copyWith(rating: int.parse(value!));
       },
     );
   }
@@ -290,7 +281,7 @@ class _EditHotelScreenState extends State<EditHotelScreen> {
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(imgUrl: value);
+        _editedHotel = _editedHotel.copyWith(imgUrl: value);
       },
     );
   }

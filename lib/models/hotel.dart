@@ -33,4 +33,27 @@ class Hotel {
         location: location ?? this.location,
         rating: rating ?? this.rating);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'hotelName': hotelName,
+      'description': description,
+      'price': price,
+      'imgUrl': imgUrl,
+      'location': location,
+      'rating': rating,
+    };
+  }
+
+  static Hotel fromJson(Map<String, dynamic> json) {
+    return Hotel(
+      id: json['id'],
+      hotelName: json['hotelName'],
+      description: json['description'],
+      price: json['price'],
+      imgUrl: json['imgUrl'],
+      location: json['location'],
+      rating: json['rating'],
+    );
+  }
 }

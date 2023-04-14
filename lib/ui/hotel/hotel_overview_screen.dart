@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myshop/ui/screens.dart';
+import 'package:provider/provider.dart';
 
 import '../shared/app_drawer.dart';
 import 'hotel_card.dart';
+import 'hotel_grid.dart';
 
 class HotelOverviewScreen extends StatefulWidget {
   const HotelOverviewScreen({super.key});
@@ -22,43 +24,20 @@ class _HotelOverviewScreen extends State<HotelOverviewScreen> {
   //   "https://www.telegraph.co.uk/content/dam/Travel/2017/November/tunisia-sidi-bou-GettyImages-575664325.jpg",
   //   "https://lp-cms-production.imgix.net/features/2018/06/byrsa-hill-carthage-tunis-tunisia-2d96efe7b9bf.jpg"
   // ];
-  static const routeName = '/hotel';
+  // static const routeName = '/hotel';
+  late Future<void> _fetchHotels;
+  final _showOnlyFavorites = ValueNotifier<bool>(false);
+  void initState() {
+    super.initState();
+    _fetchHotels = context.read<HotelsManager>().fetchHotels();
+  }
+
   @override
   Widget build(BuildContext context) {
     final hotels = HotelsManager().items;
     return Scaffold(
       backgroundColor: Color(0xFFF6F7FF),
-      // appBar: AppBar(
-      //   elevation: 0.0,
-      //   backgroundColor: Color(0xFFF6F7FF),
-      //   leading: Builder(builder: (context) {
-      //       return IconButton(
-      //         onPressed: () { Scaffold.of(context).openDrawer();}
-      //         icon: Icon(
-      //           Icons.image_search_outlined,
-      //         ),
-      //       );
-      //     }
-      //   // leading: Icon(
-      //   //   Icons.menu,
-      //   //   color: Colors.black,
-      //   // ),
-      //   // title: Row(children: [
-      //   //   IconButton(
-      //   //       onPressed: () {},
-      //   //       icon: Icon(
-      //   //         Icons.menu,
-      //   //         color: Colors.black,
-      //   //       ))
-      //   // ]),
-      //   // actions: <Widget>[
-      //   //   return PopupMenuButton(
-      //   //     on
-      //   //   )
-      //   // ],
-      // ),
       drawer: const AppDrawer(),
-
       appBar: AppBar(
         backgroundColor: Color(0xFFF6F7FF),
         elevation: 0.0,
@@ -72,6 +51,21 @@ class _HotelOverviewScreen extends State<HotelOverviewScreen> {
           );
         }),
       ),
+      // body: FutureBuilder(
+      //   future: _fetchHotels,
+      //   builder: (ctx, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.done) {
+      //       return ValueListenableBuilder<bool>(
+      //           valueListenable: _showOnlyFavorites,
+      //           builder: (context, onlyFavotites, child) {
+      //             return HotelGrid(onlyFavotites);
+      //           });
+      //     }
+      //     return const Center(
+      //       child: CircularProgressIndicator(),
+      //     );
+      //   },
+      // ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
         child: Column(children: [
@@ -124,13 +118,30 @@ class _HotelOverviewScreen extends State<HotelOverviewScreen> {
                   Container(
                     height: 350.0,
                     child: TabBarView(children: [
-                      Container(
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: hotels.length,
-                          itemBuilder: (ctx, i) => HotelCard(hotels[i]),
-                        ),
+                      FutureBuilder(
+                        future: _fetchHotels,
+                        builder: (ctx, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return ValueListenableBuilder<bool>(
+                                valueListenable: _showOnlyFavorites,
+                                builder: (context, onlyFavotites, child) {
+                                  return HotelGrid(onlyFavotites);
+                                });
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
+
+                      // Container(
+                      //   child: ListView.builder(
+                      //     scrollDirection: Axis.horizontal,
+                      //     itemCount: hotels.length,
+                      //     itemBuilder: (ctx, i) => HotelCard(hotels[i]),
+                      //   ),
+                      // ),
                       Container(
                         child: ListView(
                           scrollDirection: Axis.horizontal,
@@ -170,3 +181,82 @@ class _HotelOverviewScreen extends State<HotelOverviewScreen> {
     );
   }
 }
+
+
+//  Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+//         child: Column(children: [
+//           Text(' ĐẶT PHÒNG KHÁCH SẠN',
+//               style: TextStyle(
+//                   color: Colors.black,
+//                   fontSize: 26.0,
+//                   fontWeight: FontWeight.w600)),
+//           SizedBox(
+//             height: 20.0,
+//           ),
+//           Material(
+//             elevation: 10.0,
+//             borderRadius: BorderRadius.circular(30.0),
+//             shadowColor: Color(0x55434343),
+//             child: TextField(
+//               textAlign: TextAlign.start,
+//               textAlignVertical: TextAlignVertical.center,
+//               decoration: InputDecoration(
+//                   hintText: 'Tìm kiếm ...',
+//                   prefixIcon: Icon(
+//                     Icons.search,
+//                     color: Colors.black,
+//                   ),
+//                   border: InputBorder.none),
+//             ),
+//           ),
+//           SizedBox(height: 30.0),
+//           DefaultTabController(
+//               length: 3,
+//               child: Expanded(
+//                 child: Column(children: [
+//                   TabBar(
+//                     indicatorColor: Color(0xFFFE8C68),
+//                     unselectedLabelColor: Color(0xFF555555),
+//                     labelColor: Color(0xFFFE8C68),
+//                     tabs: [
+//                       Tab(
+//                         text: 'Xu hướng',
+//                       ),
+//                       Tab(
+//                         text: 'Khuyến mãi',
+//                       ),
+//                       Tab(
+//                         text: 'Yêu thích',
+//                       )
+//                     ],
+//                   ),
+//                   SizedBox(height: 45.0),
+//                   Container(
+//                     height: 350.0,
+//                     child: TabBarView(children: [
+//                       Container(
+//                         child: ListView.builder(
+//                           scrollDirection: Axis.horizontal,
+//                           itemCount: hotels.length,
+//                           itemBuilder: (ctx, i) => HotelCard(hotels[i]),
+//                         ),
+//                       ),
+//                       Container(
+//                         child: ListView(
+//                           scrollDirection: Axis.horizontal,
+//                           children: [],
+//                         ),
+//                       ),
+//                       Container(
+//                         child: ListView(
+//                           scrollDirection: Axis.horizontal,
+//                           children: [],
+//                         ),
+//                       )
+//                     ]),
+//                   ),
+//                 ]),
+//               )),
+//         ]),
+//       ),

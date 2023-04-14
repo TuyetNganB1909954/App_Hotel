@@ -87,9 +87,9 @@ class _OrderHotelScreenState extends State<OrderHotelScreen> {
     try {
       final productsManager = context.read<HotelsManager>();
       if (_editedProduct.id != null) {
-        productsManager.updateProduct(_editedProduct);
+        productsManager.updateHotel(_editedProduct);
       } else {
-        productsManager.addProduct(_editedProduct);
+        productsManager.addHotel(_editedProduct);
       }
     } catch (error) {
       await showErrorDialog(context, 'Something went wrong');

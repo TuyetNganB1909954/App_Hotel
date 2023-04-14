@@ -4,13 +4,15 @@ import 'package:myshop/ui/hotel/user_hotel_tile.dart';
 import 'package:myshop/ui/screens.dart';
 import 'package:provider/provider.dart';
 
+import '../shared/app_drawer.dart';
+
 class UserHotelScreen extends StatelessWidget {
-  static const routeName = '/user-hotel';
+  static const routeName = '/user-hotels';
   const UserHotelScreen({super.key});
 
-  // Future<void> _refreshProducts(BuildContext context) async {
-  //   await context.read<HotelsManager>().fetchProducts(true);
-  // }
+  Future<void> _refreshHotels(BuildContext context) async {
+    await context.read<HotelsManager>().fetchHotels();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,52 +24,36 @@ class UserHotelScreen extends StatelessWidget {
             buildAddButton(context),
           ],
         ),
-        // drawer: const AppDrawer(),
-        body: RefreshIndicator(
-          onRefresh: () async => print('refresh products'),
-          child: buildUserProductListView(hotelsManager),
-        )
-        //   body: FutureBuilder(
-        //     future: _refreshProducts(context),
-        //     builder: (ctx, snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //         return const Center(
-        //           child: CircularProgressIndicator(),
-        //         );
-        //       }
-        //       return RefreshIndicator(
-        //           child: buildUserProductListView(HotelsManager),
-        //           onRefresh: () => _refreshProducts(context));
-        //     },
-        //   ),
-        );
+        drawer: const AppDrawer(),
+        body: FutureBuilder(
+          future: _refreshHotels(context),
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return RefreshIndicator(
+                child: buildUserProductListView(hotelsManager),
+                onRefresh: () => _refreshHotels(context));
+          },
+        ));
   }
 
   Widget buildUserProductListView(HotelsManager hotelsManager) {
-    // return Consumer<HotelsManager>(builder: (ctx, HotelsManager, child) {
-    //   return ListView.builder(
-    //     itemCount: HotelsManager.itemsCount,
-    //     itemBuilder: (ctx, i) => Column(
-    //       children: [
-    //         UserProductListTile(
-    //           HotelsManager.items[i],
-    //         ),
-    //         const Divider(),
-    //       ],
-    //     ),
-    //   );
-    // });
-    return ListView.builder(
-      itemCount: hotelsManager.itemsCount,
-      itemBuilder: (ctx, i) => Column(
-        children: [
-          UserHotelListTile(
-            hotelsManager.items[i],
-          ),
-          const Divider(),
-        ],
-      ),
-    );
+    return Consumer<HotelsManager>(builder: (ctx, hotelsManager, child) {
+      return ListView.builder(
+        itemCount: hotelsManager.itemsCount,
+        itemBuilder: (ctx, i) => Column(
+          children: [
+            UserHotelListTile(
+              hotelsManager.items[i],
+            ),
+            const Divider(),
+          ],
+        ),
+      );
+    });
   }
 
   Widget buildAddButton(BuildContext context) {
